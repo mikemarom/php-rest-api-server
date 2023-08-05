@@ -1,4 +1,4 @@
 RewriteEngine on
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule ^(.*)$ server.php [NC,L,QSA]
+RewriteRule ^(.*)$ account.php [NC,L,QSA]
