@@ -18,12 +18,31 @@
    
   if ('POST'===$method)
   {
+	  // Create new account from the details passed in the POST call
+	  $newAccountID = rand(500,100000);
+	  
+	  
+	  $newAccount = array(
+		  'id' => $newAccountID,
+		  'name' => $_POST['name'],
+		  'street_address' => $_POST['street_address'],
+		  'city' => $_POST['city'],
+		  'state' => $_POST['state'],
+		  'country' => $_POST['country'],
+		  'zipcode' => $_POST['zipcode'],
+		  'email' => $_POST['email'],
+		  'phone' => $_POST['phone']
+	  	);
+	  
+	  
   	  	$response=array
 			(
-			'method' => 'POST - Create New Account',
-			'version' => '1.0'
+			'method' => 'POST to '.$_SERVER['REQUEST_URI'],
+			'result' => 'Successfully created New Account '.$newAccountID,
+			'newAccount' => $newAccount
 			);
 	
+			
 		http_response_code(200);
 		echo json_encode($response); 
   }
@@ -32,34 +51,36 @@
   {
 			$object_id=$request[0];
 			
-			if (strlen($object_id)==0)
+			if ((strlen($object_id)==0)||(is_numeric($object_id)==FALSE))
 			{
 				// Return ALL Account objects
 				$response=array
 				(
-					'Method' => 'GET - Retrieve All Accounts',
+					'method' => 'GET to '.$_SERVER['REQUEST_URI'],
+					'result' => 'Successfully retrieved All Accounts',
 					'NumOfObjects' => '5'
 				);
 				
 				http_response_code(200);
 				echo json_encode($response);
 			}
-			else
+			else // we know our object ID is numeric and isn't empty
 			{
 				// Return the one Account with Object ID
 				$response=array
 				(
-					'Method' => 'GET - Retrieve Specific Account '.$object_id,
-					'Account' => array (
-										'id' => '1234',
+					'method' => 'GET to '.$_SERVER['REQUEST_URI'],
+					'result' => 'Successfully retrieved Specific Account '.$object_id,
+					'account' => array (
+										'id' => $object_id,
 										'name' => 'John Smith',
 										'street_address' => '123 Main Street',
-										'city' => 'Fairfax',
+										'city' => 'San Francisco',
 										'state' => 'CA',
 										'country' => 'USA',
-										'zipcode' => '94960',
+										'zipcode' => '94103',
 										'email' => 'john@smith.com',
-										'phone' => '+1 555-555-1234'
+										'phone' => '+1 415-123-4567'
 								)
 				);
 				
@@ -68,7 +89,31 @@
 			}
   }
   if ('PUT'===$method)
-	  { }
+	  { 
+    	  	$response=array
+  			(
+			'method' => 'PUT to '.$_SERVER['REQUEST_URI'],
+  			'result' => 'PUT functionality not yet implemented'
+			);
+	
+			// Handle account update
+	
+  		http_response_code(200);
+  		echo json_encode($response); 
+	  
+	  }
   if ('DELETE'===$method)
-	  { }
+	  { 
+  	  	$response=array
+			(
+			'method' => 'DELETE to '.$_SERVER['REQUEST_URI'],
+			'result' => 'DELETE functionality not yet implemented'
+			);
+	  
+	 	// Handle account delete
+	 	 
+	  	http_response_code(200);
+	  	echo json_encode($response); 
+	  
+	  }
 ?>
